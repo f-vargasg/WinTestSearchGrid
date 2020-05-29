@@ -38,7 +38,11 @@ namespace WinTestSearchGrid
 
         private void butImportFile_Click(object sender, EventArgs e)
         {
-            // HSSFWorkbook hssfwb;
+            //DataSet ds = null;
+            DataTable dt = new DataTable() ;
+            DataRow dr;
+            DataColumn idCoulumn;
+
             XSSFWorkbook hssfwb;
             try
             {
@@ -48,20 +52,23 @@ namespace WinTestSearchGrid
                 }
 
                 XSSFFormulaEvaluator eval = new XSSFFormulaEvaluator(hssfwb);
-
+                dt = new DataTable();
                 // int maxColumns = 2;
-
                 ISheet sheet = hssfwb.GetSheet("Sheet1");
                 for (int row = 0; row <= sheet.LastRowNum; row++)
                 {
+                    #region processRows
                     if (sheet.GetRow(row) != null) //null is when the row only contains empty cells 
                     {
+                        dr = dt.NewRow();
                         for (int ncol = 0; ncol < sheet.GetRow(row).LastCellNum; ncol++)
                         {
+                            #region processColumns
                             ICell icel = sheet.GetRow(row).GetCell(ncol);
                             if (icel != null)
                             {
                                 // string value = icel.StringCellValue;
+                                #region process icel
                                 string value = string.Empty;
                                 switch (icel.CellType)
                                 {
@@ -88,16 +95,37 @@ namespace WinTestSearchGrid
                                     default:
                                         break;
                                 }
-
+                                #endregion process icel
                                 string salida = string.Format("Row {0} = {1}", row, value);
                                 Console.WriteLine(salida);
+                                if (row == 0) // Header 
+                                {
+                                    idCoulumn = new DataColumn(value, Type.GetType("System.String"));
+                                    dt.Columns.Add(idCoulumn);
+                                }
+                                else  // rows normales
+                                {
+                                    dr[ncol] = value;
+                                }
                                 // MessageBox.Show(salida);
                             }
+                            #endregion processColumns
+                        } // sheet.GetRow(row) != null
+                        if (row != 0)
+                        {
+                            dt.Rows.Add(dr);
                         }
-
+                        
+                       
                         //MessageBox.Show(string.Format("Row {0} = {1}", row, sheet.GetRow(row).GetCell(0).StringCellValue));
                     }
+                    #endregion processRows
                 }
+
+                // show datatable
+                //ds.Tables.Add(dt);
+                dgrData.AutoGenerateColumns = true;
+                dgrData.DataSource = dt;
             }
             catch (Exception ex)
             {
