@@ -30,17 +30,17 @@
         {
             this.dgrData = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtToFind = new System.Windows.Forms.TextBox();
+            this.txtSearchBox = new System.Windows.Forms.TextBox();
             this.cmbSearchType = new System.Windows.Forms.ComboBox();
             this.butSearch = new System.Windows.Forms.Button();
             this.butClearFilters = new System.Windows.Forms.Button();
-            this.txtFileToImport = new System.Windows.Forms.TextBox();
+            this.txtImportExcelPath = new System.Windows.Forms.TextBox();
             this.butImportFile = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.lblRowCount = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.butOpenFile = new System.Windows.Forms.Button();
-            this.buTestDataset = new System.Windows.Forms.Button();
+            this.butTestDataSet = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgrData)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -65,15 +65,16 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "Serach by:";
             // 
-            // txtToFind
+            // txtSearchBox
             // 
-            this.txtToFind.Location = new System.Drawing.Point(351, 18);
-            this.txtToFind.Name = "txtToFind";
-            this.txtToFind.Size = new System.Drawing.Size(268, 26);
-            this.txtToFind.TabIndex = 2;
+            this.txtSearchBox.Location = new System.Drawing.Point(351, 18);
+            this.txtSearchBox.Name = "txtSearchBox";
+            this.txtSearchBox.Size = new System.Drawing.Size(268, 26);
+            this.txtSearchBox.TabIndex = 2;
             // 
             // cmbSearchType
             // 
+            this.cmbSearchType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbSearchType.FormattingEnabled = true;
             this.cmbSearchType.Location = new System.Drawing.Point(102, 18);
             this.cmbSearchType.Name = "cmbSearchType";
@@ -88,6 +89,7 @@
             this.butSearch.TabIndex = 4;
             this.butSearch.Text = "Search";
             this.butSearch.UseVisualStyleBackColor = true;
+            this.butSearch.Click += new System.EventHandler(this.butSearch_Click);
             // 
             // butClearFilters
             // 
@@ -97,14 +99,15 @@
             this.butClearFilters.TabIndex = 5;
             this.butClearFilters.Text = "Show All";
             this.butClearFilters.UseVisualStyleBackColor = true;
+            this.butClearFilters.Click += new System.EventHandler(this.butClearFilters_Click);
             // 
-            // txtFileToImport
+            // txtImportExcelPath
             // 
-            this.txtFileToImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtFileToImport.Location = new System.Drawing.Point(7, 20);
-            this.txtFileToImport.Name = "txtFileToImport";
-            this.txtFileToImport.Size = new System.Drawing.Size(369, 26);
-            this.txtFileToImport.TabIndex = 6;
+            this.txtImportExcelPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.txtImportExcelPath.Location = new System.Drawing.Point(7, 20);
+            this.txtImportExcelPath.Name = "txtImportExcelPath";
+            this.txtImportExcelPath.Size = new System.Drawing.Size(369, 26);
+            this.txtImportExcelPath.TabIndex = 6;
             // 
             // butImportFile
             // 
@@ -143,7 +146,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this.butOpenFile);
             this.panel1.Controls.Add(this.lblRowCount);
-            this.panel1.Controls.Add(this.txtFileToImport);
+            this.panel1.Controls.Add(this.txtImportExcelPath);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.butImportFile);
             this.panel1.Location = new System.Drawing.Point(0, 591);
@@ -161,27 +164,27 @@
             this.butOpenFile.UseVisualStyleBackColor = true;
             this.butOpenFile.Click += new System.EventHandler(this.butOpenFile_Click);
             // 
-            // buTestDataset
+            // butTestDataSet
             // 
-            this.buTestDataset.Location = new System.Drawing.Point(980, 22);
-            this.buTestDataset.Name = "buTestDataset";
-            this.buTestDataset.Size = new System.Drawing.Size(168, 25);
-            this.buTestDataset.TabIndex = 12;
-            this.buTestDataset.Text = "Test Dataset";
-            this.buTestDataset.UseVisualStyleBackColor = true;
-            this.buTestDataset.Click += new System.EventHandler(this.buTestDataset_Click);
+            this.butTestDataSet.Location = new System.Drawing.Point(980, 22);
+            this.butTestDataSet.Name = "butTestDataSet";
+            this.butTestDataSet.Size = new System.Drawing.Size(168, 25);
+            this.butTestDataSet.TabIndex = 12;
+            this.butTestDataSet.Text = "Test Dataset";
+            this.butTestDataSet.UseVisualStyleBackColor = true;
+            this.butTestDataSet.Click += new System.EventHandler(this.buTestDataset_Click);
             // 
             // FrmPrincTestSearch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1200, 692);
-            this.Controls.Add(this.buTestDataset);
+            this.Controls.Add(this.butTestDataSet);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.butClearFilters);
             this.Controls.Add(this.butSearch);
             this.Controls.Add(this.cmbSearchType);
-            this.Controls.Add(this.txtToFind);
+            this.Controls.Add(this.txtSearchBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dgrData);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -201,17 +204,17 @@
 
         private System.Windows.Forms.DataGridView dgrData;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtToFind;
+        private System.Windows.Forms.TextBox txtSearchBox;
         private System.Windows.Forms.ComboBox cmbSearchType;
         private System.Windows.Forms.Button butSearch;
         private System.Windows.Forms.Button butClearFilters;
-        private System.Windows.Forms.TextBox txtFileToImport;
+        private System.Windows.Forms.TextBox txtImportExcelPath;
         private System.Windows.Forms.Button butImportFile;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lblRowCount;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button butOpenFile;
-        private System.Windows.Forms.Button buTestDataset;
+        private System.Windows.Forms.Button butTestDataSet;
     }
 }
 

@@ -1,4 +1,6 @@
-﻿using NPOI.HSSF.UserModel;
+﻿// #define MYTEST
+
+using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using System;
@@ -19,6 +21,15 @@ namespace WinTestSearchGrid
         public FrmPrincTestSearch()
         {
             InitializeComponent();
+            InitMyComponents();
+        }
+
+        private void InitMyComponents()
+        {
+            butTestDataSet.Visible = false;
+#if (MYTEST)
+            butTestDataSet.Visible = true;
+#endif
         }
 
         private void butOpenFile_Click(object sender, EventArgs e)
@@ -32,21 +43,53 @@ namespace WinTestSearchGrid
 
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                txtFileToImport.Text = dialog.FileName;
+                txtImportExcelPath.Text = dialog.FileName;
             }
         }
 
         private void butImportFile_Click(object sender, EventArgs e)
         {
             //DataSet ds = null;
-            DataTable dt = new DataTable() ;
-            DataRow dr;
-            DataColumn idCoulumn;
+            DataTable dt = null;
 
-            XSSFWorkbook hssfwb;
+            if (txtImportExcelPath.Text != "" && File.Exists(txtImportExcelPath.Text))
+            {
+                LoadData();
+            }
+        }
+
+        private void LoadData()
+        {
+            DataTable dt;
             try
             {
-                using (FileStream file = new FileStream(txtFileToImport.Text, FileMode.Open, FileAccess.Read))
+                cmbSearchType.Items.Clear();
+                dt = ExportExcellToDataTable(txtImportExcelPath.Text);
+                string[] ColNameList = dt.Columns.OfType<DataColumn>().Select(x => x.ColumnName).ToArray();
+                cmbSearchType.Items.AddRange(ColNameList); // Adding Column Names in ComoBox List    
+                                                           // show datatable
+                                                           //ds.Tables.Add(dt);
+                if (cmbSearchType.Items.Count > 0) cmbSearchType.SelectedIndex = 0;
+                dgrData.AutoGenerateColumns = true;
+                dgrData.DataSource = dt;
+                lblRowCount.Text = dt.Rows.Count.ToString();
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private DataTable ExportExcellToDataTable(string excellFname)
+        {
+            XSSFWorkbook hssfwb;
+            DataTable dt = null;
+            DataRow dr;
+            DataColumn idCoulumn;
+            try
+            {
+                using (FileStream file = new FileStream(excellFname, FileMode.Open, FileAccess.Read))
                 {
                     hssfwb = new XSSFWorkbook(file);
                 }
@@ -115,27 +158,21 @@ namespace WinTestSearchGrid
                         {
                             dt.Rows.Add(dr);
                         }
-                        
-                       
                         //MessageBox.Show(string.Format("Row {0} = {1}", row, sheet.GetRow(row).GetCell(0).StringCellValue));
                     }
                     #endregion processRows
                 }
-
-                // show datatable
-                //ds.Tables.Add(dt);
-                dgrData.AutoGenerateColumns = true;
-                dgrData.DataSource = dt;
+                return dt;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
-                MessageBox.Show (ex.Message);
+                throw;
             }
-            
+
         }
 
-        private static string ProcessFormula( ICell icel, 
+        private static string ProcessFormula(ICell icel,
                                               XSSFFormulaEvaluator eval)
         {
             string value;
@@ -209,6 +246,33 @@ namespace WinTestSearchGrid
             dgrData.AutoGenerateColumns = true;
             dgrData.DataSource = dtAll;
 
+        }
+
+        private void butSearch_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ((DataTable)dgrData.DataSource).DefaultView.RowFilter =
+                    string.Format("" + cmbSearchType.Text + " like '%{0}%'", txtSearchBox.Text.Trim().Replace("'", "''"));
+                lblRowCount.Text = (dgrData.Rows.Count - 1).ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void butClearFilters_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                LoadData();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            
         }
     }
 }
