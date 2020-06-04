@@ -41,6 +41,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.butOpenFile = new System.Windows.Forms.Button();
             this.butTestDataSet = new System.Windows.Forms.Button();
+            this.butQuit = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgrData)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -83,7 +84,7 @@
             // 
             // butSearch
             // 
-            this.butSearch.Location = new System.Drawing.Point(694, 21);
+            this.butSearch.Location = new System.Drawing.Point(658, 19);
             this.butSearch.Name = "butSearch";
             this.butSearch.Size = new System.Drawing.Size(96, 25);
             this.butSearch.TabIndex = 4;
@@ -93,7 +94,7 @@
             // 
             // butClearFilters
             // 
-            this.butClearFilters.Location = new System.Drawing.Point(815, 22);
+            this.butClearFilters.Location = new System.Drawing.Point(769, 19);
             this.butClearFilters.Name = "butClearFilters";
             this.butClearFilters.Size = new System.Drawing.Size(96, 25);
             this.butClearFilters.TabIndex = 5;
@@ -166,7 +167,7 @@
             // 
             // butTestDataSet
             // 
-            this.butTestDataSet.Location = new System.Drawing.Point(980, 22);
+            this.butTestDataSet.Location = new System.Drawing.Point(1020, 21);
             this.butTestDataSet.Name = "butTestDataSet";
             this.butTestDataSet.Size = new System.Drawing.Size(168, 25);
             this.butTestDataSet.TabIndex = 12;
@@ -174,11 +175,22 @@
             this.butTestDataSet.UseVisualStyleBackColor = true;
             this.butTestDataSet.Click += new System.EventHandler(this.buTestDataset_Click);
             // 
+            // butQuit
+            // 
+            this.butQuit.Location = new System.Drawing.Point(886, 19);
+            this.butQuit.Name = "butQuit";
+            this.butQuit.Size = new System.Drawing.Size(96, 25);
+            this.butQuit.TabIndex = 13;
+            this.butQuit.Text = "Exit";
+            this.butQuit.UseVisualStyleBackColor = true;
+            this.butQuit.Click += new System.EventHandler(this.butQuit_Click);
+            // 
             // FrmPrincTestSearch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1200, 692);
+            this.Controls.Add(this.butQuit);
             this.Controls.Add(this.butTestDataSet);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.butClearFilters);
@@ -215,6 +227,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button butOpenFile;
         private System.Windows.Forms.Button butTestDataSet;
+        private System.Windows.Forms.Button butQuit;
     }
 }
 

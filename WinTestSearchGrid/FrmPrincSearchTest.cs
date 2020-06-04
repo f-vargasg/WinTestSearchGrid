@@ -199,7 +199,6 @@ namespace WinTestSearchGrid
                 default:
                     break;
             }
-
             return value;
         }
 
@@ -273,6 +272,11 @@ namespace WinTestSearchGrid
                 MessageBox.Show(ex.Message);
             }
             
+        }
+
+        private void butQuit_Click(object sender, EventArgs e)
+        {
+            this.Dispose();
         }
     }
 }
